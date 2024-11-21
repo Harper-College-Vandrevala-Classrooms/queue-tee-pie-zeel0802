@@ -1,21 +1,32 @@
 package com.csc;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 public class TestQueueTees {
+    public static void main(String[] args) {
+        // Create a queue with capacity of 5
+        QueueTees queue = new QueueTees(5);
 
-  QueueTees queue;
+        // Create Cutie objects
+        Puppy puppy = new Puppy();
+        Kitty kitty = new Kitty();
+        PygmyMarmoset marmoset = new PygmyMarmoset();
 
-  @BeforeEach
-  void setUp() {
-    queue = new QueueTees();
-  }
+        // Enqueue objects
+        queue.enqueue(puppy);
+        queue.enqueue(kitty);
+        queue.enqueue(marmoset);
 
-  @Test
-  void itWorks() {
-    assertEquals(true, true);
-  }
+        // Display queue size
+        System.out.println("Queue size: " + queue.size());
+
+        // Dequeue objects
+        queue.dequeue();
+        queue.dequeue();
+
+        // Display queue size
+        System.out.println("Queue size after dequeues: " + queue.size());
+
+        // Clear the queue
+        queue.clear();
+        System.out.println("Queue size after clearing: " + queue.size());
+    }
 }
