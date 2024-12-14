@@ -1,56 +1,71 @@
 package com.csc;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class QueueTees {
-    private Cutie[] queue;
-    private int front;
-    private int rear;
-    private int size;
-    private int capacity;
+    private Queue<Object> queue;
+    private int capacity; // Optional capacity limit
 
-    // Constructor
+    // No-argument constructor
+    public QueueTees() {
+        queue = new LinkedList<>();
+        capacity = Integer.MAX_VALUE; // Default to unlimited
+    }
+
+    // Constructor with capacity
     public QueueTees(int capacity) {
+        queue = new LinkedList<>();
         this.capacity = capacity;
-        this.queue = new Cutie[capacity];
-        this.front = 0;
-        this.rear = -1;
-        this.size = 0;
     }
 
-    // Enqueue method
-    public void enqueue(Cutie cutie) {
-        if (size == capacity) {
-            System.out.println("Queue is full! Cannot add more cuties.");
-            return;
+    // Enqueue an element (with capacity check)
+    public void enqueue(Object item) {
+        if (queue.size() >= capacity) {
+            throw new IllegalStateException("Queue is full!");
         }
-        rear = (rear + 1) % capacity;
-        queue[rear] = cutie;
-        size++;
-        System.out.println("Added: " + cutie.description());
+        queue.add(item);
     }
 
-    // Dequeue method
-    public Cutie dequeue() {
-        if (size == 0) {
-            System.out.println("Queue is empty! Cannot dequeue.");
-            return null;
+    // Dequeue an element
+    public Object dequeue() {
+        if (queue.isEmpty()) {
+            throw new IllegalStateException("Queue is empty!");
         }
-        Cutie dequeued = queue[front];
-        front = (front + 1) % capacity;
-        size--;
-        System.out.println("Removed: " + dequeued.description());
-        return dequeued;
+        return queue.poll();
     }
 
-    // Size method
-    public int size() {
-        return size;
+    // Peek at the front of the queue
+    public Object peek() {
+        if (queue.isEmpty()) {
+            throw new IllegalStateException("Queue is empty!");
+        }
+        return queue.peek();
     }
 
-    // Clear method
-    public void clear() {
-        front = 0;
-        rear = -1;
-        size = 0;
-        System.out.println("Queue has been cleared.");
+    // Get the size of the queue
+    public int getSize() {
+        return queue.size();
+    }
+
+    // Reverse the queue
+    public void reverseQueue() {
+        LinkedList<Object> stack = new LinkedList<>();
+        while (!queue.isEmpty()) {
+            stack.push(queue.poll());
+        }
+        while (!stack.isEmpty()) {
+            queue.add(stack.pop());
+        }
+    }
+
+    // Check if an element exists in the queue
+    public boolean contains(Object item) {
+        return queue.contains(item);
+    }
+
+    // Print all elements in the queue
+    public void printQueue() {
+        System.out.println("Queue: " + queue);
     }
 }

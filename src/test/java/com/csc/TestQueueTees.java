@@ -1,32 +1,40 @@
 package com.csc;
 
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestQueueTees {
-    public static void main(String[] args) {
-        // Create a queue with capacity of 5
-        QueueTees queue = new QueueTees(5);
 
-        // Create Cutie objects
-        Puppy puppy = new Puppy();
-        Kitty kitty = new Kitty();
-        PygmyMarmoset marmoset = new PygmyMarmoset();
+    // Test the capacity-based constructor
+    @Test
+    public void testQueueCapacity() {
+        QueueTees queue = new QueueTees(3);
 
-        // Enqueue objects
-        queue.enqueue(puppy);
-        queue.enqueue(kitty);
-        queue.enqueue(marmoset);
+        queue.enqueue("Cutie");
+        queue.enqueue("Kitty");
+        queue.enqueue("Puppy");
 
-        // Display queue size
-        System.out.println("Queue size: " + queue.size());
+        // Test that adding more than capacity throws exception
+        assertThrows(IllegalStateException.class, () -> queue.enqueue("PygmyMarmoset"));
 
-        // Dequeue objects
-        queue.dequeue();
-        queue.dequeue();
+        assertEquals("Cutie", queue.dequeue());
+        assertEquals(2, queue.getSize());
+    }
 
-        // Display queue size
-        System.out.println("Queue size after dequeues: " + queue.size());
+    // Test Priority Queue
+    @Test
+    public void testPriorityQueue() {
+        PriorityQueueTees priorityQueue = new PriorityQueueTees();
 
-        // Clear the queue
-        queue.clear();
-        System.out.println("Queue size after clearing: " + queue.size());
+        priorityQueue.enqueue("Puppy");
+        priorityQueue.enqueue("Cutie");
+        priorityQueue.enqueue("Kitty");
+
+        assertEquals("Cutie", priorityQueue.dequeue()); // Alphabetical order
+        assertEquals("Kitty", priorityQueue.dequeue());
+        assertEquals("Puppy", priorityQueue.dequeue());
+
+        assertTrue(priorityQueue.isEmpty());
     }
 }
